@@ -3,12 +3,14 @@ image.src = "./hinata.jpg";
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-canvas.width = 450;
-canvas.height = 670;
-
 image.addEventListener('load', function() {
+    canvas.width = image.width;
+    canvas.height = image.height;
+
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let particleArray = [];
@@ -18,7 +20,7 @@ image.addEventListener('load', function() {
     for( let y = 0; y < canvas.height; y++ ) {
         let row = [];
         for( let x = 0; x < canvas.width; x++ ) {
-            const index = (y * image.width * 4) + (x * 4);
+            const index = (y * imageData.width * 4) + (x * 4);
             const red = pixels[index];
             const green = pixels[index+1];
             const blue = pixels[index+2];
